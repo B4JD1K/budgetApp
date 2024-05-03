@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/budget-app-backend/application.iml" filepath="$PROJECT_DIR$/budget-app-backend/application.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/budgetApp.iml" filepath="$PROJECT_DIR$/.idea/budgetApp.iml" />
     </modules>
   </component>
