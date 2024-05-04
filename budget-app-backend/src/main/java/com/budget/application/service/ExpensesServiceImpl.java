@@ -27,13 +27,11 @@ public class ExpensesServiceImpl implements ExpensesService {
 
         List<Expense> filteredExpenses = new ArrayList<Expense>();
         List<Expense> allExpenses = expenseRepository.findAll();
-        filteredExpenses = allExpenses;
-        // powyzsze przypisanie wszystkich wydatkow do zafiltrowanej listy zmieniło nieco poniższy opis
 
         if (criteria.getTagNames() != null) {
             // przekształcamy listę wejściową 'allExpenses' do strumienia.
             //  pozwala nam to na strumieniu wywołać metodę filtrowania
-            filteredExpenses = filteredExpenses.stream()
+            filteredExpenses = allExpenses.stream()
                     // wywoływując na strumieniu metodę filtrowania, której predykatem jest wyrażenie następujące:
                     //  dla każdego 'expense' ze strumienia 'allExpenses' pobieramy listę tagów expense.getTags(), którą
                     //   przekształcamy do strumienia, na którym stosujemy kolejny predykat
@@ -65,7 +63,7 @@ public class ExpensesServiceImpl implements ExpensesService {
         }
 
         if (criteria.getToDate() != null) {
-            filteredExpenses = filteredExpenses.stream()
+            filteredExpenses=filteredExpenses.stream()
                     .filter(expense -> expense.getCreationDate().isBefore(criteria.getToDate().toLocalDateTime()))
                     .collect(Collectors.toList());
         }
