@@ -13,4 +13,6 @@ public interface ExpenseRepository {
     Expense save(Expense expense);
 
     List<Expense> findAll();
+
+    void deleteById(Long expenseId);
 }
