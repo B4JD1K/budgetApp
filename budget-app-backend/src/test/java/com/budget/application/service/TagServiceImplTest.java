@@ -10,9 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,39 +32,28 @@ class TagServiceImplTest {
     @BeforeEach
     void setUp() {
         testUtils = new TestUtils();
-        allGeneratedTestTags = testUtils.generateTestTags(10, true);
+        testUtils.generateTestTags(10, true);
 
-        Tag generatedTag = allGeneratedTestTags.get(0);
-        newTagTame = generatedTag.getName();
-        Mockito.when(tagRepository.save(Mockito.any(Tag.class))).thenReturn(generatedTag);
-        Mockito.when(tagRepository.findAll()).thenReturn(allGeneratedTestTags);
-        Mockito.when(tagRepository.findByName(newTagTame)).thenReturn(Arrays.asList(generatedTag));
+        Mockito.when(tagRepository.save(Mockito.any(Tag.class))).thenReturn(null);
     }
 
     @Test
     void createTag() {
-        Tag createdTag = tagService.createTag(newTagTame);
-        assertNotNull(createdTag);
-        assertEquals(createdTag.getName(), newTagTame);
+        fail("Not implemented yet");
     }
 
     @Test
     void getAllTags() {
-        List<Tag> allTags = tagService.getAllTags().get();
-        assertEquals(allTags.size(), allGeneratedTestTags.size());
+        fail("Not implemented yet");
     }
 
     @Test
     void deleteTag() {
-        Tag tag = tagService.getAllTags().get().get(0);
-        tagService.deleteTag(tag.getId());
-        Optional<Tag> tagWhichShouldNotExist = tagRepository.findById(tag.getId());
-        assertFalse(tagWhichShouldNotExist.isPresent());
+        fail("Not implemented yet");
     }
 
     @Test
     void getTagByName() {
-        Tag retrievedTagByName = tagService.getTagByName(newTagTame).get();
-        assertEquals(retrievedTagByName.getName(), newTagTame);
+        fail("Not implemented yet");
     }
 }
