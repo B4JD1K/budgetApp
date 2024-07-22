@@ -1,6 +1,11 @@
 package com.budget.application.controller;
 
 import com.budget.application.model.Expense;
+import com.budget.application.response.provider.ExpenseResponseEntity;
+import com.budget.application.response.provider.ExpenseResponseProvider;
+import com.budget.application.response.provider.TagResponseEntity;
+import com.budget.application.response.provider.TagResponseProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,50 +13,46 @@ import java.util.List;
 @RestController
 public class BudgetController {
 
+    @Autowired
+    private ExpenseResponseProvider expenseResponseProvider;
 
-    //ExpensesProvider
-    //TagsProvider
+    @Autowired
+    private TagResponseProvider tagResponseProvider;
+
     @RequestMapping(value = "/expense", method = RequestMethod.POST)
-    public Object addExpense(@RequestBody Expense expense) {
-
-        return null;
+    public ExpenseResponseEntity addExpense(@RequestBody Expense expense) {
+        return expenseResponseProvider.createExpense(expense);
     }
 
     @RequestMapping(value = "/expense/{expenseId}", method = RequestMethod.DELETE)
-    public Object deleteExpense(@PathVariable(value = "expenseId") Long expenseId) {
-
-        return null;
+    public ExpenseResponseEntity deleteExpense(@PathVariable(value = "expenseId") Long expenseId) {
+        return expenseResponseProvider.deleteExpense(expenseId);
     }
 
     @RequestMapping(value = "/expenses", method = RequestMethod.GET)
-    public Object getAllExpenses() {
-
-        return null;
+    public ExpenseResponseEntity getAllExpenses() {
+        return expenseResponseProvider.getAllExpenses();
     }
 
     @RequestMapping(value = "/expense/criteria", method = RequestMethod.GET)
-    public Object getExpensesBySearchCriteria(@RequestParam(value = "tagNames") List<String> tagNames,
-                                              @RequestParam(value = "fromDate") String fromDate,
-                                              @RequestParam(value = "toDate") String toomDate) {
-
-        return null;
+    public ExpenseResponseEntity getExpensesBySearchCriteria(@RequestParam(value = "tagNames") List<String> tagNames,
+                                                             @RequestParam(value = "fromDate") String fromDate,
+                                                             @RequestParam(value = "toDate") String toomDate) {
+        return expenseResponseProvider.getExpensesBySearchCriteria(tagNames, fromDate, toomDate);
     }
 
     @RequestMapping(value = "tags", method = RequestMethod.GET)
-    public Object getAllTags() {
-
-        return null;
+    public TagResponseEntity getAllTags() {
+        return tagResponseProvider.getAllTags();
     }
 
-    @RequestMapping(value = "tag",method = RequestMethod.POST)
-    public Object addNewTag(@RequestBody String name){
-
-        return null;
+    @RequestMapping(value = "tag", method = RequestMethod.POST)
+    public TagResponseEntity addNewTag(@RequestBody String tagName) {
+        return tagResponseProvider.createTag(tagName);
     }
 
     @RequestMapping(value = "tag/{tagId}", method = RequestMethod.DELETE)
-    public Object deleteTag(@PathVariable("tagId") Long tagId){
-
-        return null;
+    public TagResponseEntity deleteTag(@PathVariable("tagId") Long tagId) {
+        return tagResponseProvider.deleteTag(tagId);
     }
 }
