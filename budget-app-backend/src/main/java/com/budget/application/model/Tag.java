@@ -1,5 +1,7 @@
 package com.budget.application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Expense> expenses = new ArrayList<Expense>();
 
     public Tag() {
