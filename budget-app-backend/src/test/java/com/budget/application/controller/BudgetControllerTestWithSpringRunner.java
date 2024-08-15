@@ -93,23 +93,15 @@ public class BudgetControllerTestWithSpringRunner {
         ResponseEntity<ExpensesList> generatedExpenseResponse = restTemplate.exchange(createURLWithPort("/expense"), HttpMethod.POST, generatedExpenseEntity, ExpensesList.class);
 
         Long generatedExpenseId = generatedExpenseResponse.getBody().getExpenses().get(0).getId();
-        ResponseEntity<ExpensesList> deleteExpenseResponse = restTemplate.exchange(createURLWithPort("/expense/" + generatedExpenseId), HttpMethod.DELETE, generatedExpenseEntity, ExpensesList.class);
+        ResponseEntity<ExpensesList> deleteExpenseResponse = restTemplate.exchange(createURLWithPort("/expense/"+generatedExpenseId),HttpMethod.DELETE,generatedExpenseEntity,ExpensesList.class);
 
         assertTrue(deleteExpenseResponse.getStatusCode().equals(HttpStatus.OK));
     }
 
     @Test
     public void testGetTags() {
-        Tag generatedTag = testUtils.generateTestTags(1, false).get(0);
-        HttpEntity<Tag> generatedTagEntity = new HttpEntity<Tag>(generatedTag, headers);
-        ResponseEntity<TagsList> generatedTagResponse = restTemplate.exchange(createURLWithPort("/tag"), HttpMethod.POST, generatedTagEntity, TagsList.class);
+        fail("Not implemented yet.");
 
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-        ResponseEntity<TagsList> response = restTemplate.exchange(createURLWithPort("/tags"), HttpMethod.GET, entity, TagsList.class);
-        TagsList responseBody = response.getBody();
-
-        assertTrue(response.getStatusCode().equals(HttpStatus.OK));
-        assertTrue(responseBody.getTags().size() > 0);
     }
 
     @Test
