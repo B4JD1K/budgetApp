@@ -114,6 +114,18 @@ public class BudgetControllerTestWithSpringRunner {
 
     @Test
     public void testGetExpensesBySearchCriteriaWithTagNamesSettedOnly() throws Exception {
-        fail("Not implemented yet.");
+        // Creating new expenses
+        Expense testExpenseToAdd = testUtils.generateTestExpense(20, null);
+        HttpEntity<Expense> entity = new HttpEntity<Expense>(testExpenseToAdd, headers);
+        ResponseEntity<ExpensesList> generatedExpenseResponse = restTemplate.exchange(createURLWithPort("/expense"), HttpMethod.POST, entity, ExpensesList.class);
+        // Creating request url based on params
+        String tagName = generatedExpenseResponse.getBody().getExpenses().get(0).getTags().get(0).getName();
+        String requestURL = createURLWithPort("/expenses/criteria?tagNames=" + tagName + "&fromDate=&toDate=");
+        // Executing request
+        HttpEntity<String> getExpensesByCriteriaEntity = new HttpEntity<String>(null, headers);
+        ResponseEntity<ExpensesList> getExpensesByCriteriaResponse = restTemplate.exchange(requestURL, HttpMethod.GET, entity, ExpensesList.class);
+
+        assertTrue(getExpensesByCriteriaResponse.getStatusCode().equals(HttpStatus.OK));
+        assertTrue(getExpensesByCriteriaResponse.getBody().getExpenses().size() > 0);
     }
 }
