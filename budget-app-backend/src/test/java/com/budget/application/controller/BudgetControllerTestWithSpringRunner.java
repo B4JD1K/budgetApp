@@ -88,7 +88,14 @@ public class BudgetControllerTestWithSpringRunner {
 
     @Test
     public void testDeleteExpense() {
-        fail("Not implemented yet.");
+        Expense generatedExpense = testUtils.generateTestExpense(1, null);
+        HttpEntity<Expense> generatedExpenseEntity = new HttpEntity<Expense>(generatedExpense, headers);
+        ResponseEntity<ExpensesList> generatedExpenseResponse = restTemplate.exchange(createURLWithPort("/expense"), HttpMethod.POST, generatedExpenseEntity, ExpensesList.class);
+
+        Long generatedExpenseId = generatedExpenseResponse.getBody().getExpenses().get(0).getId();
+        ResponseEntity<ExpensesList> deleteExpenseResponse = restTemplate.exchange(createURLWithPort("/expense/"+generatedExpenseId),HttpMethod.DELETE,generatedExpenseEntity,ExpensesList.class);
+
+        assertTrue(deleteExpenseResponse.getStatusCode().equals(HttpStatus.OK));
     }
 
     @Test
