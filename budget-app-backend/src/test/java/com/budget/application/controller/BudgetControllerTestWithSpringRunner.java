@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.budget.application.Application;
+import com.budget.application.model.Tag;
+import com.budget.application.response.provider.TagsList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +64,12 @@ public class BudgetControllerTestWithSpringRunner {
 
     @Test
     public void testAddNewTag() {
-        fail("Not implemented yet.");
+        Tag generatedTag = testUtils.generateTestTags(1, false).get(0);
+        HttpEntity<String> entity = new HttpEntity<String>(generatedTag.getName(),headers);
+        ResponseEntity<TagsList> response = restTemplate.exchange(createURLWithPort("/tag"),HttpMethod.POST,entity, TagsList.class);
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
+        assertTrue(response.getBody().getTags().size()>0);
     }
 
     @Test
