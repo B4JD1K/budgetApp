@@ -7,6 +7,7 @@ import com.budget.application.Application;
 import com.budget.application.model.Tag;
 import com.budget.application.response.provider.TagsList;
 import org.junit.Test;
+import org.junit.jupiter.api.Tags;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -46,7 +47,7 @@ public class BudgetControllerTestWithSpringRunner {
         ResponseEntity<ExpensesList> response = restTemplate.exchange(createURLWithPort("/expense"), HttpMethod.POST, entity, ExpensesList.class);
 
         assertTrue(response.getStatusCode().equals(HttpStatus.OK));
-        assertTrue(response.getBody().getExpenses().size()>0);
+        assertTrue(response.getBody().getExpenses().size() > 0);
     }
 
     @Test
@@ -59,22 +60,30 @@ public class BudgetControllerTestWithSpringRunner {
         ResponseEntity<ExpensesList> response = restTemplate.exchange(createURLWithPort("/expenses"), HttpMethod.GET, entity, ExpensesList.class);
 
         assertTrue(response.getStatusCode().equals(HttpStatus.OK));
-        assertTrue(response.getBody().getExpenses().size()>0);
+        assertTrue(response.getBody().getExpenses().size() > 0);
     }
 
     @Test
     public void testAddNewTag() {
         Tag generatedTag = testUtils.generateTestTags(1, false).get(0);
-        HttpEntity<String> entity = new HttpEntity<String>(generatedTag.getName(),headers);
-        ResponseEntity<TagsList> response = restTemplate.exchange(createURLWithPort("/tag"),HttpMethod.POST,entity, TagsList.class);
+        HttpEntity<String> entity = new HttpEntity<String>(generatedTag.getName(), headers);
+        ResponseEntity<TagsList> response = restTemplate.exchange(createURLWithPort("/tag"), HttpMethod.POST, entity, TagsList.class);
 
         assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
-        assertTrue(response.getBody().getTags().size()>0);
+        assertTrue(response.getBody().getTags().size() > 0);
     }
 
     @Test
     public void testDeleteTag() {
-        fail("Not implemented yet.");
+        Tag generatedTag = testUtils.generateTestTags(1, false).get(0);
+        HttpEntity<String> generatedTagEntity = new HttpEntity<String>(generatedTag.getName(), headers);
+        ResponseEntity<TagsList> generatedTagResponse = restTemplate.exchange(createURLWithPort("/tag"), HttpMethod.POST, generatedTagEntity, TagsList.class);
+
+        Long generatedTagId = generatedTagResponse.getBody().getTags().get(0).getId();
+        ResponseEntity<TagsList> deleteTagResponse = restTemplate.exchange(createURLWithPort("/tag/" + generatedTagId), HttpMethod.DELETE, generatedTagEntity, TagsList.class);
+
+        assertTrue(deleteTagResponse.getStatusCode().equals(HttpStatus.OK));
+
     }
 
     @Test
